@@ -5,6 +5,7 @@
 img{
   height: 50px;
   padding: 10px;
+  cursor: pointer
 }
 .result{
   text-align: center;
@@ -13,5 +14,8 @@ img{
 button{
   padding: 5px 20px;
   margin: 40px;
-
+  cursor: pointer
+}
+.victory div{
+  display: flex;
 }
