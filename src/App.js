@@ -1,23 +1,52 @@
-import './App.css';
+import "./App.css";
+import React, { useState } from "react";
+import Counters from "./Counters";
 
 function App() {
+  const initialCounters = Counters();
+  const [counts, setCounts] = useState(initialCounters);
+  const [maxCount, setMaxCount] = useState(null);
+
+  function increment(id) {
+    const updatedCounts = counts.map((el) =>
+      el.id === id ? { ...el, value: el.value + 1 } : el
+    );
+    setCounts(updatedCounts);
+  }
+  function victorySmile() {
+    const maxNumber = Math.max(...counts.map((el) => el.value));
+    const victorySm = counts.filter((el) => el.value === maxNumber);
+    setMaxCount(victorySm);
+  }
+
   return (
     <>
-    <div className='smiles'>
-      <div className='smile'><img src="./images/1.png" alt="1smile" /><div className='result'>0</div></div>
-      <div className='smile'><img src="./images/2.png" alt="2smile" /><div className='result'>0</div></div>
-      <div className='smile'><img src="./images/3.png" alt="3smile" /><div className='result'>0</div></div>
-      <div className='smile'><img src="./images/4.png" alt="4smile" /><div className='result'>0</div></div>
-      <div className='smile'><img src="./images/5.png" alt="5smile" /><div className='result'>0</div></div>
-      <div className='smile'><img src="./images/6.png" alt="6smile" /><div className='result'>0</div></div>
-      <div className='smile'><img src="./images/7.png" alt="7smile" /><div className='result'>0</div></div>
-    </div>
-    <div>
-      <button>Result</button>
-      <div className="victory"></div>
-    </div>
+      <div className="smiles">
+        {counts.map((el) => (
+          <div className="smile" key={el.id}>
+            <img
+              src={el.src}
+              alt={el.id + "smile"}
+              onClick={() => increment(el.id)}
+            />
+            <div className="result">{el.value}</div>
+          </div>
+        ))}
+      </div>
 
-
+      <div>
+        <button onClick={victorySmile}>Смайл переможець</button>
+        <div className="victory">
+          {maxCount && maxCount.length > 0 && (
+            <div>
+                {maxCount.map((winner) => (
+                  <div key={winner.id}>
+                    <img src={winner.src} alt="Виграшний смайл" /></div>
+                ))}
+            </div>
+          )}
+        </div>
+      </div>
     </>
   );
 }
